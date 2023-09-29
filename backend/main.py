@@ -17,7 +17,7 @@ async def get_link_info(
     status_code=status.HTTP_200_OK
 ):
     response = get_response(url)
-    return await extract_title_from_response(response)
+    return extract_title_from_response(response)
 
 
 
