@@ -1,16 +1,20 @@
 1. виртуальное окружение и пакеты:
-
+```
 python -m venv env
 pip install -r requirements.txt
+```
+2. базы db (пока так):
+`
+python
+`
+В интерпретаторе, в виртуальном окружении для инициализации:
+```
+>> import services
+>> services.create_database()
+```
 
-базы db (пока так):
-
-запускаем python для инициализации
-
-import services
-services.create_database()
-
-
-run сервер:
-
+3. run сервер:
+   
+```
 uvicorn main:app --reload
+```
