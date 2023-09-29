@@ -5,13 +5,15 @@ pip install -r requirements.txt
 ```
 
 2. базы db (пока так):
+запускаем интерпретатор Python внутри env:  
 ```
 python
 ```
-В интерпретаторе, в виртуальном окружении env, для инициализации:
+Внутри интерпретатора для инициализации:
 ```python
 import services
 services.create_database()
+exit()
 ```
 
 3. run сервер:
