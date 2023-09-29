@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import Navbar from './components/Navbar.js'
 import Hero from './components/Hero.js'
 import AboutCard from './components/AboutCard.js'
+import Footer from './components/Footer.js'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
@@ -56,6 +57,7 @@ export default function Home() {
     </form>
 
      </div>
+     <Footer/>
   
     </>
   )

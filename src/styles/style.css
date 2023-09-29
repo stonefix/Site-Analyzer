@@ -198,3 +198,36 @@ gap:var(--subheader);
     box-shadow: 0 0 10px #ffa90b
   
 }
+footer{
+  background-color: #1E1E1E;
+  color: white;
+  padding-top: var(--text);
+  padding-bottom: var(--text);
+
+
+}
+.footer__info--text{
+  display: flex;
+  flex-direction: column;
+}
+.footer__info--text span:last-child{
+  color: grey;
+}
+.footer__info{
+  display: flex;
+  align-items: center;
+  gap:15px;
+  padding-left: var(--sidepadding);
+
+}
+.footer__info img{
+  height: var(--icon);
+}
+.copyright{
+  padding-left: var(--sidepadding);
+  padding-right: var(--sidepadding);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
