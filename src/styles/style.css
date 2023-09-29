@@ -1,0 +1,200 @@
+:root{
+  --darkviolet:#4941A2;
+  --lightviolet:#D8D3FF;
+  --yellow:#FBA60B;
+  --sidepadding: 6rem ;
+  --header:4vw;
+  --text:1.5vw;
+  --subheader:1vw;
+  --icon:5vw;
+  --button:1.2vw;
+  --card:3.5vw;
+}
+body{
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+font-family: 'Poppins', sans-serif;
+  
+}
+.body__header{
+  font-weight: bold;
+  font-size: 3.1vw;
+  
+}
+.align{
+  display: flex;
+  align-items: center;
+}
+.violetline{
+  height: 40px;
+
+  background-color: #38287B;
+}
+.wrapper{
+  padding-left: var(--sidepadding);
+  padding-right: var(--sidepadding)
+}
+/*? Navbar*/
+nav{
+  background-color: var(--darkviolet);
+  color: white;
+  padding: var(--sidepadding) ;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  gap:15px;
+  font-size: var(--text);
+
+}
+.nav__logo{
+  gap:15px;
+}
+.logo_image{
+  height: var(--icon);
+
+}
+.logo_title{
+  font-weight: bold;
+  color: var(--yellow); 
+  font-size: var(--text)
+}
+.nav__links{
+  gap:15px;
+  text-decoration: none;
+}
+.link{
+  text-decoration: none;
+  color: inherit;
+}
+/*?Hero*/
+.hero{
+  color: white;
+  display: flex;
+ justify-content: space-between;
+ padding-left: var(--sidepadding);
+ padding-right: var(--sidepadding);
+ padding-top: 2vw;
+
+
+ background-color: var(--darkviolet);
+
+}
+.hero .header{
+  font-weight: bold;
+  font-size: var(--header)
+}
+.hero .subheader{
+
+  font-size: var(--subheader)
+}
+.hero__info{
+  display:flex;
+  flex-direction: column;
+  gap: var(--button);
+}
+.hero__icon{
+  height: var(--icon);
+  width: var(--icon);
+
+}
+.custom-button{
+  background-color: var(--yellow);
+  border-radius: 12px;
+  padding:15px;
+  color: white;
+  width: fit-content;
+  border: none;
+  outline: none;
+  font-size: var(--button);
+
+  
+
+}
+.hero__image{
+  height:33vw;
+  padding:0 ;
+}
+
+.hero__wave{
+  width: 100%;
+}
+
+/*?Card*/
+.container{
+  display: flex;
+  padding-top:var(--text);
+  padding-bottom: var(--text);
+  justify-content: center;
+  background: url('../../public/serv.png');
+  background-size: cover;
+  
+  background-repeat: none;
+  background-position: center;
+}
+
+.card{
+  
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+gap:var(--subheader);
+
+}
+.card__img{
+  background-color: var(--darkviolet);
+  border-radius: 50%;
+  display: flex;
+  height: var(--icon);
+    width: var(--icon);
+
+  justify-content: center;
+  align-items: center;
+}
+.card__img img{
+  height: var(--card);
+  width: var(--card);
+
+}
+
+.card__header{
+  font-size: var(--text);
+  font-weight: bold;
+}
+.card_sub{
+  font-size: var(--subheader);
+  text-align: center;
+}
+ 
+.services{
+  
+  display: grid;
+  gap: var(--card);
+  grid-template-columns: repeat(3, 20vw);
+
+}
+
+.partners{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: var(--header);
+  padding-bottom: var(--header);
+  padding-left: var(--sidepadding);
+  padding-right: var(--sidepadding);
+}
+.partners img{
+  height: 3vw;
+}
+.custom-input{
+  border-radius: 12px;
+  padding: 10px;
+  width: 19vw;
+
+}
+.custom-input:focus{
+
+    outline: none !important;
+    border:2px solid var(--yellow);
+    box-shadow: 0 0 10px #ffa90b
+  
+}
