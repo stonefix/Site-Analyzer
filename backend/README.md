@@ -12,7 +12,7 @@ python
 Внутри интерпретатора для инициализации:
 ```python
 import services
-services.create_database()
+services.createdatabase()
 exit()
 ```
 

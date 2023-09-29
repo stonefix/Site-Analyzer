@@ -1,38 +1,38 @@
-import datetime as _dt
+import datetime as dt
 
-import database as _database
-import fastapi as _fastapi
-import fastapi.security as _security
-import jwt as _jwt
-import models as _models
-import passlib.hash as _hash
-import schemas as _schemas
-import sqlalchemy.orm as _orm
+import database as database
+import fastapi as fastapi
+import fastapi.security as security
+import jwt as jwt
+import models as models
+import passlib.hash as hash
+import schemas as schemas
+import sqlalchemy.orm as orm
 
-oauth2schema = _security.OAuth2PasswordBearer(tokenUrl="/api/token")
+oauth2schema = security.OAuth2PasswordBearer(tokenUrl="/api/token")
 
 JWT_SECRET = "myjwtsecret"
 
 
-def create_database():
-    return _database.Base.metadata.create_all(bind=_database.engine)
+def createdatabase():
+    return database.Base.metadata.create_all(bind=database.engine)
 
 
 def get_db():
-    db = _database.SessionLocal()
+    db = database.SessionLocal()
     try:
         yield db
     finally:
         db.close()
 
 
-async def get_user_by_email(email: str, db: _orm.Session):
-    return db.query(_models.User).filter(_models.User.email == email).first()
+async def get_user_by_email(email: str, db: orm.Session):
+    return db.query(models.User).filter(models.User.email == email).first()
 
 
-async def create_user(user: _schemas.UserCreate, db: _orm.Session):
-    user_obj = _models.User(
-        email=user.email, hashed_password=_hash.bcrypt.hash(user.hashed_password)
+async def create_user(user: schemas.UserCreate, db: orm.Session):
+    user_obj = models.User(
+        email=user.email, hashed_password=hash.bcrypt.hash(user.hashed_password)
     )
     db.add(user_obj)
     db.commit()
@@ -40,7 +40,7 @@ async def create_user(user: _schemas.UserCreate, db: _orm.Session):
     return user_obj
 
 
-async def authenticate_user(email: str, password: str, db: _orm.Session):
+async def authenticate_user(email: str, password: str, db: orm.Session):
     user = await get_user_by_email(db=db, email=email)
 
     if not user:
@@ -52,70 +52,70 @@ async def authenticate_user(email: str, password: str, db: _orm.Session):
     return user
 
 
-async def create_token(user: _models.User):
-    user_obj = _schemas.User.from_orm(user)
+async def create_token(user: models.User):
+    user_obj = schemas.User.fromorm(user)
 
-    token = _jwt.encode(user_obj.dict(), JWT_SECRET)
+    token = jwt.encode(user_obj.dict(), JWT_SECRET)
 
     return dict(access_token=token, token_type="bearer")
 
 
 async def get_current_user(
-    db: _orm.Session = _fastapi.Depends(get_db),
-    token: str = _fastapi.Depends(oauth2schema),
+    db: orm.Session = fastapi.Depends(get_db),
+    token: str = fastapi.Depends(oauth2schema),
 ):
     try:
-        payload = _jwt.decode(token, JWT_SECRET, algorithms=["HS256"])
-        user = db.query(_models.User).get(payload["id"])
+        payload = jwt.decode(token, JWT_SECRET, algorithms=["HS256"])
+        user = db.query(models.User).get(payload["id"])
     except:
-        raise _fastapi.HTTPException(
+        raise fastapi.HTTPException(
             status_code=401, detail="Invalid Email or Password"
         )
 
-    return _schemas.User.from_orm(user)
+    return schemas.User.fromorm(user)
 
 
-async def create_lead(user: _schemas.User, db: _orm.Session, lead: _schemas.LeadCreate):
-    lead = _models.Lead(**lead.dict(), owner_id=user.id)
+async def create_lead(user: schemas.User, db: orm.Session, lead: schemas.LeadCreate):
+    lead = models.Lead(**lead.dict(), owner_id=user.id)
     db.add(lead)
     db.commit()
     db.refresh(lead)
-    return _schemas.Lead.from_orm(lead)
+    return schemas.Lead.fromorm(lead)
 
 
-async def get_leads(user: _schemas.User, db: _orm.Session):
-    leads = db.query(_models.Lead).filter_by(owner_id=user.id)
+async def get_leads(user: schemas.User, db: orm.Session):
+    leads = db.query(models.Lead).filter_by(owner_id=user.id)
 
-    return list(map(_schemas.Lead.from_orm, leads))
+    return list(map(schemas.Lead.fromorm, leads))
 
 
-async def _lead_selector(lead_id: int, user: _schemas.User, db: _orm.Session):
+async def _lead_selector(lead_id: int, user: schemas.User, db: orm.Session):
     lead = (
-        db.query(_models.Lead)
+        db.query(models.Lead)
         .filter_by(owner_id=user.id)
-        .filter(_models.Lead.id == lead_id)
+        .filter(models.Lead.id == lead_id)
         .first()
     )
 
     if lead is None:
-        raise _fastapi.HTTPException(status_code=404, detail="Lead does not exist")
+        raise fastapi.HTTPException(status_code=404, detail="Lead does not exist")
 
     return lead
 
 
-async def get_lead(lead_id: int, user: _schemas.User, db: _orm.Session):
+async def get_lead(lead_id: int, user: schemas.User, db: orm.Session):
     lead = await _lead_selector(lead_id=lead_id, user=user, db=db)
 
-    return _schemas.Lead.from_orm(lead)
+    return schemas.Lead.fromorm(lead)
 
 
-async def delete_lead(lead_id: int, user: _schemas.User, db: _orm.Session):
+async def delete_lead(lead_id: int, user: schemas.User, db: orm.Session):
     lead = await _lead_selector(lead_id, user, db)
 
     db.delete(lead)
     db.commit()
 
-async def update_lead(lead_id: int, lead: _schemas.LeadCreate, user: _schemas.User, db: _orm.Session):
+async def update_lead(lead_id: int, lead: schemas.LeadCreate, user: schemas.User, db: orm.Session):
     lead_db = await _lead_selector(lead_id, user, db)
 
     lead_db.first_name = lead.first_name
@@ -123,10 +123,10 @@ async def update_lead(lead_id: int, lead: _schemas.LeadCreate, user: _schemas.Us
     lead_db.email = lead.email
     lead_db.company = lead.company
     lead_db.note = lead.note
-    lead_db.date_last_updated = _dt.datetime.utcnow()
+    lead_db.date_last_updated = dt.datetime.utcnow()
 
     db.commit()
     db.refresh(lead_db)
 
-    return _schemas.Lead.from_orm(lead_db)
+    return schemas.Lead.fromorm(lead_db)
 

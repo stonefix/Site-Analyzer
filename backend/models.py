@@ -1,33 +1,33 @@
-import datetime as _dt
+import datetime as dt
 
-import database as _database
-import passlib.hash as _hash
-import sqlalchemy as _sql
-import sqlalchemy.orm as _orm
+import database as database
+import passlib.hash as hash
+import sqlalchemy as sql
+import sqlalchemy.orm as orm
 
 
-class User(_database.Base):
+class User(database.Base):
     __tablename__ = "users"
-    id = _sql.Column(_sql.Integer, primary_key=True, index=True)
-    email = _sql.Column(_sql.String, unique=True, index=True)
-    hashed_password = _sql.Column(_sql.String)
+    id = sql.Column(sql.Integer, primary_key=True, index=True)
+    email = sql.Column(sql.String, unique=True, index=True)
+    hashed_password = sql.Column(sql.String)
 
-    leads = _orm.relationship("Lead", back_populates="owner")
+    leads = orm.relationship("Lead", back_populates="owner")
 
     def verify_password(self, password: str):
-        return _hash.bcrypt.verify(password, self.hashed_password)
+        return hash.bcrypt.verify(password, self.hashed_password)
 
 
-class Lead(_database.Base):
+class Lead(database.Base):
     __tablename__ = "leads"
-    id = _sql.Column(_sql.Integer, primary_key=True, index=True)
-    owner_id = _sql.Column(_sql.Integer, _sql.ForeignKey("users.id"))
-    first_name = _sql.Column(_sql.String, index=True)
-    last_name = _sql.Column(_sql.String, index=True)
-    email = _sql.Column(_sql.String, index=True)
-    company = _sql.Column(_sql.String, index=True, default="")
-    note = _sql.Column(_sql.String, default="")
-    date_created = _sql.Column(_sql.DateTime, default=_dt.datetime.utcnow)
-    date_last_updated = _sql.Column(_sql.DateTime, default=_dt.datetime.utcnow)
+    id = sql.Column(sql.Integer, primary_key=True, index=True)
+    owner_id = sql.Column(sql.Integer, sql.ForeignKey("users.id"))
+    first_name = sql.Column(sql.String, index=True)
+    last_name = sql.Column(sql.String, index=True)
+    email = sql.Column(sql.String, index=True)
+    company = sql.Column(sql.String, index=True, default="")
+    note = sql.Column(sql.String, default="")
+    date_created = sql.Column(sql.DateTime, default=dt.datetime.utcnow)
+    date_last_updated = sql.Column(sql.DateTime, default=dt.datetime.utcnow)
 
-    owner = _orm.relationship("User", back_populates="leads")
+    owner = orm.relationship("User", back_populates="leads")

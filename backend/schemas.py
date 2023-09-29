@@ -1,13 +1,14 @@
-import datetime as _dt
+import datetime as dt
 
-import pydantic as _pydantic
+import pydantic as pydantic
+from pydantic import BaseModel, HttpUrl
 
 
-class _UserBase(_pydantic.BaseModel):
+class UserBase(pydantic.BaseModel):
     email: str
 
 
-class UserCreate(_UserBase):
+class UserCreate(UserBase):
     hashed_password: str
 
     class Config:
@@ -16,7 +17,7 @@ class UserCreate(_UserBase):
         allow_population_by_field_name = True
 
 
-class User(_UserBase):
+class User(UserBase):
     id: int
 
     class Config:
@@ -25,7 +26,7 @@ class User(_UserBase):
         allow_population_by_field_name = True
 
 
-class _LeadBase(_pydantic.BaseModel):
+class LeadBase(pydantic.BaseModel):
     first_name: str
     last_name: str
     email: str
@@ -33,17 +34,25 @@ class _LeadBase(_pydantic.BaseModel):
     note: str
 
 
-class LeadCreate(_LeadBase):
+class LeadCreate(LeadBase):
     pass
 
 
-class Lead(_LeadBase):
+class Lead(LeadBase):
     id: int
     owner_id: int
-    date_created: _dt.datetime
-    date_last_updated: _dt.datetime
+    date_created: dt.datetime
+    date_last_updated: dt.datetime
 
     class Config:
         orm_mode = True
         from_attributes = True
         allow_population_by_field_name = True
+
+class GetInfoAboutLinkResponse(BaseModel):
+    long_url: HttpUrl
+    number_of_clicks: int
+    dt_created: dt
+
+    class Config:
+        orm_mode = True
