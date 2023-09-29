@@ -4,4 +4,4 @@
 [Backend README](../main/backend/README.md)
 
 2. Разворачиваем фронтенд:
-[Frontend README] (../main/frontend/README.md)
+[Frontend README](../main/frontend/README.md)
