@@ -4,6 +4,7 @@ import Navbar from './components/Navbar.js'
 import Hero from './components/Hero.js'
 import AboutCard from './components/AboutCard.js'
 import Footer from './components/Footer.js'
+import DataForm from './components/DataForm.js'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
@@ -47,7 +48,7 @@ export default function Home() {
           </div>
 
       </div>
-      <div className='partners'>
+      <div className='partners' style={{marginBottom:"3vw"}}>
      <span  className='body__header'>Сейчас ты узнаешь своих конкурентов.{"\n"} Завтра ты их устранишь. 
 </span>
 
@@ -57,6 +58,10 @@ export default function Home() {
     </form>
 
      </div>
+     <section className='email-section'>
+     <DataForm/>
+
+     </section>
      <Footer/>
   
     </>

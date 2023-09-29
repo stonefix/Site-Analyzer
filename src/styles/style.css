@@ -231,3 +231,25 @@ footer{
   align-items: center;
 
 }
+.email-form{
+  position: relative;
+  border-radius: 24px;
+  border-top: 20px var(--yellow) solid;
+  height: 20vw;
+  top: -4vw;
+  display: flex;
+  margin-left: 10vw;
+  flex-direction: column;
+  gap: var(--text);
+  width:20%;
+  background-color: white;
+  padding: 40px;
+  color: white;
+}
+.email-section{
+  background: url('../../public/email-back.png');
+  width: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
