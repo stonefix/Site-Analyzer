@@ -5,9 +5,25 @@ import Hero from './components/Hero.js'
 import AboutCard from './components/AboutCard.js'
 import Footer from './components/Footer.js'
 import DataForm from './components/DataForm.js'
+import { useState } from 'react'
+import axios from 'axios'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const [url,setUrl]=useState('')
+  const [seoData,setSeoData] = useState('')
+  const handleSubmit= async (e) => {
+  
+    try {
+      e.preventDefault()
+      const res = await axios.get(`http://localhost:5000/check_domain`,{params:{domain:url}});
+      setSeoData(res.data)
+       console.log("Data",res.data)
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  
   return (
     <>
       <Head>
@@ -52,15 +68,22 @@ export default function Home() {
      <span  className='body__header'>Сейчас ты узнаешь своих конкурентов.{"\n"} Завтра ты их устранишь. 
 </span>
 
-    <form className='align' style={{gap:"15px", justifyContent:"center"}}>
-      <input className='custom-input' placeholder='Введите URL, domain страницы для анализа'></input>
+    <form className='align' style={{gap:"15px", justifyContent:"center"}} onSubmit={handleSubmit}>
+      <input onChange={e=>setUrl(e.target.value)} className='custom-input' placeholder='Введите URL, domain страницы для анализа'></input>
       <button className='custom-button'>Обработать</button>
     </form>
+  {seoData &&   <div>
+    <div style={{gap:10}} className='align'>    <span>Категория</span>
+      <span>{seoData.category}</span></div>
+  <div style={{gap:10}} className='align'> <span>Тема</span>
+      <span>{seoData.theme}</span></div>
+     
+    </div>}
 
      </div>
      <section className='email-section'>
      <DataForm/>
-
+    
      </section>
      <Footer/>
   
